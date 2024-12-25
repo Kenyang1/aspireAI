@@ -12,13 +12,17 @@ export default function ChatLayout({children}) {
                     <Image src="/logo.png" alt="logo" width={32} height={32} />
                     <span className="hidden lg:block font-bold text-white">AspireAI</span>
                 </Link>
-                <Menu userType="student" /> {/* Hardcode userType as "student" */}
+                <Menu userType="student" />
             </div>
 
             {/* RIGHT */}
-            <div className="w-[86%] md:w-[92%] lg:w-[84%] xl:w-[86%] bg-white-200 overflow-scroll">
+            <div className="w-[86%] md:w-[92%] lg:w-[84%] xl:w-[86%] h-full bg-white-200 overflow-y-hidden">
                 <Navbar/>
-                {children}
+                <div
+                    className="flex-grow h-full"
+                >
+                    {children}
+                </div>
             </div>
         </div>
     );
