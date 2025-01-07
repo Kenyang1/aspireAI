@@ -44,12 +44,12 @@ const menuItems = [
   {
     title: "OTHER",
     items: [
-      {
-        icon: "/profile.png",
-        label: "Profile",
-        href: "/profile",
-        visible: ["student"],
-      },
+      // {
+      //   icon: "/profile.png",
+      //   label: "Profile",
+      //   href: "/profile",
+      //   visible: ["student"],
+      // },
       {
         icon: "/gear.png",
         label: "Settings",
