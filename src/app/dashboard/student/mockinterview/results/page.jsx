@@ -1,5 +1,5 @@
 'use client'
-import {Suspense, useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {useRouter, useSearchParams} from "next/navigation";
 import { questionData } from "../../../../../data/data";
 import ReactLoading from "react-loading";
@@ -109,38 +109,35 @@ export default function Results () {
 
 
     return (
-        <Suspense>
-
-            <div
-                className={`h-[90%] w-full flex overflow-hidden ${isLoading ? "items-center justify-center" : "items-baseline"} space-y-6 p-4 bg-gray-50`}
-            >
-                {
-                    isLoading ?
-                        <ReactLoading type="bubbles" color="black" /> :
-                        <div className="flex flex-col gap-5 items-center">
-                            <div className="flex gap-5">
-                                {
-                                    idxs.map((idx, index) => (
-                                    <div key={index} className="w-full max-w-2xl h-[40%] overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200">
-                                        <p className="text-lg font-semibold text-gray-700 mb-2">{questionData[idx][0]}</p>
-                                        <audio controls className="w-full mb-4">
-                                            <source src={audioFiles[index]} type="audio/wav"></source>
-                                        </audio>
-                                        <p className="text-sm text-gray-600 ">
-                                            {feedback[index].messages.content}
-                                        </p>
-                                    </div>
-                                    ))
-                                }
-                            </div>
-                            <button onClick={handleRestart}
-                                    className="mt-6 w-fit px-6 py-3 bg-blue-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300"
-                            >
-                                Restart
-                            </button>
+        <div
+            className={`h-[90%] w-full flex overflow-hidden ${isLoading ? "items-center justify-center" : "items-baseline"} space-y-6 p-4 bg-gray-50`}
+        >
+            {
+                isLoading ?
+                    <ReactLoading type="bubbles" color="black" /> :
+                    <div className="flex flex-col gap-5 items-center">
+                        <div className="flex gap-5">
+                            {
+                                idxs.map((idx, index) => (
+                                <div key={index} className="w-full max-w-2xl h-[40%] overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200">
+                                    <p className="text-lg font-semibold text-gray-700 mb-2">{questionData[idx][0]}</p>
+                                    <audio controls className="w-full mb-4">
+                                        <source src={audioFiles[index]} type="audio/wav"></source>
+                                    </audio>
+                                    <p className="text-sm text-gray-600 ">
+                                        {feedback[index].messages.content}
+                                    </p>
+                                </div>
+                                ))
+                            }
                         </div>
-                }
-            </div>
-        </Suspense>
+                        <button onClick={handleRestart}
+                                className="mt-6 w-fit px-6 py-3 bg-blue-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300"
+                        >
+                            Restart
+                        </button>
+                    </div>
+            }
+        </div>
     );
 }
