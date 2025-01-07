@@ -24,7 +24,7 @@ const DashboardPage = () => {
                 />
               </div>
               <h3 className="text-xl font-bold text-center mt-4">
-                “Change will not come if we wait for some other person or some other time. We are the ones we've been waiting for. We are the change that we seek.” – Barack Obama
+                “Change will not come if we wait for some other person or some other time. We are the ones we&amp;aposve been waiting for. We are the change that we seek.” – Barack Obama
               </h3>
             </div>
 
@@ -41,7 +41,7 @@ const DashboardPage = () => {
 
             <div className="bg-gray-200 p-6 rounded shadow mt-6 transform transition-transform duration-500 hover:scale-105">
               <h3 className="text-lg font-bold">Feature Coming Soon!</h3>
-                <p className="text-gray-600">We're working on adding exciting new features to help you succeed. Stay tuned!</p>
+                <p className="text-gray-600">We&amp;aposre working on adding exciting new features to help you succeed. Stay tuned!</p>
             </div>
 
 
