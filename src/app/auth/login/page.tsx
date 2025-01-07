@@ -4,18 +4,23 @@ import Image from "next/image";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";
+import {useCookies} from "react-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState(""); // Controlled input for email
   const [password, setPassword] = useState(""); // Controlled input for password
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth); // React Firebase Hook
   const router = useRouter(); // For navigation
+  const [cookies, setCookie] = useCookies(['email', 'name', 'pfp']);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Stop form from refreshing the page
 
     try {
       const res = await signInWithEmailAndPassword(email, password); // Sign in using Firebase
+      setCookie('email', res?.user.email);
+      setCookie('name', res?.user.displayName);
+      setCookie('pfp', res?.user.photoURL);
       setEmail(""); // Clear email state
       setPassword(""); // Clear password state
       if (!res) return;
@@ -89,7 +94,7 @@ const Login = () => {
         </form>
         {/* Footer */}
         <p className="text-center text-sm text-gray-600 mt-4">
-          Don&amp;apost have an account?{" "}
+          Don&apos;t have an account?{" "}
           <a href="/auth/signup" className="text-blue-500 hover:underline">
             Create an Account
           </a>

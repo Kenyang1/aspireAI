@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase/firebaseConfig";
+import {useCookies} from "react-cookie";
 
 const menuItems = [
   {
@@ -32,12 +33,12 @@ const menuItems = [
         href: "/dashboard/student/mockinterview",
         visible: ["student"],
       },
-      {
-        icon: "/resume.png",
-        label: "Resume Review",
-        href: "/resume-review",
-        visible: ["student"],
-      },
+      // {
+      //   icon: "/resume.png",
+      //   label: "Resume Review",
+      //   href: "/resume-review",
+      //   visible: ["student"],
+      // },
     ],
   },
   {
@@ -66,9 +67,15 @@ const menuItems = [
 ];
 
 const Menu = ({ userType }: { userType: string }) => {
+
+  const [cookies, setCookie, removeCookie] = useCookies(['email', 'name', 'pfp']);
+
   const handleLogout = async () => {
     try {
       await signOut(auth); // Logs the user out
+      removeCookie('email')
+      removeCookie('name')
+      removeCookie('pfp')
       window.location.href = "/auth/login"; // Redirects to login page
     } catch (error) {
       console.error("Error logging out:", error);
