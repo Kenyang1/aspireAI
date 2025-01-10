@@ -162,7 +162,7 @@
 
 import fs from "fs";
 import { formidable } from "formidable";
-import OpenAI from "openai";
+import OpenAI, { toFile } from "openai";
 import ffmpeg from "fluent-ffmpeg";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -198,10 +198,19 @@ export default async function handler(req, res) {
                 // return res.status(400).json({ error: "Invalid file type. Only WAV files are supported." });
             }
 
+            const audioBuffer = fs.readFileSync(audioFilePath);
+
+            // Example usage of `toFile`:
+            const fileObj = await toFile(
+                audioBuffer,
+                "temp.webm",        // e.g. 'uploaded.webm'
+                { type: files.audio[0].mimetype }    // e.g. { type: 'audio/webm' }
+            );
+
             try {
 
                 const transcription = await openai.audio.transcriptions.create({
-                    file: fs.createReadStream(audioFilePath), // Use a readable stream, not a raw buffer
+                    file: fileObj,
                     model: "whisper-1",
                     response_format: "text",
                 });
