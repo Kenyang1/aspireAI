@@ -193,7 +193,7 @@ export default async function handler(req, res) {
             console.log("MIME type:", mimetype);
             console.log("File size:", files.audio[0].size);
 
-            if (mimetype !== "audio/wav") {
+            if (mimetype !== "audio/webm") {
                 console.error("Invalid file type:", mimetype);
                 return res.status(400).json({ error: "Invalid file type. Only WAV files are supported." });
             }

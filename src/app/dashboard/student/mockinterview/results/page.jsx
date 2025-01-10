@@ -31,7 +31,7 @@ export default function Results () {
                 for (const [index, url] of audioFiles.entries()) {
                     const res = await fetch(url);
                     const blob = await res.blob();
-                    const audioFile = new File([blob], `userAudio${index}`, { type: "audio/wav" });
+                    const audioFile = new File([blob], `userAudio${index}`, { type: "audio/webm" });
                     const feedback = await sendToTranscription(audioFile, questionData[index]);
                     feedbackResults.push(feedback);
                 }

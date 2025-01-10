@@ -152,7 +152,7 @@ export default function MockInterviewPage() {
 
 
         recorder.onstop = async () => {
-            const audioBlob = new Blob(chunks, { type: "audio/wav" });
+            const audioBlob = new Blob(chunks, { type: "audio/webm" });
 
             const newURL = URL.createObjectURL(audioBlob);
 
