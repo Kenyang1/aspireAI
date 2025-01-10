@@ -133,8 +133,8 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: "No audio file uploaded" });
             }
 
-            console.log('file path', files.audio.filepath)
-            const audioFilePath = files.audio.filepath;
+            console.log('file path', files.audio[0].filepath)
+            const audioFilePath = files.audio[0].filepath;
 
             try {
                 const transcription = await openai.audio.transcriptions.create({
