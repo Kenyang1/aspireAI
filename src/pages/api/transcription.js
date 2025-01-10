@@ -200,10 +200,8 @@ export default async function handler(req, res) {
 
             try {
 
-                const fileBuffer = fs.readFileSync(audioFilePath);
-
                 const transcription = await openai.audio.transcriptions.create({
-                    file: fileBuffer,
+                    file: fs.createReadStream(audioFilePath), // Use a readable stream, not a raw buffer
                     model: "whisper-1",
                     response_format: "text",
                 });
