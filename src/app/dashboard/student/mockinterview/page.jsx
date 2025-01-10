@@ -131,7 +131,8 @@ export default function MockInterviewPage() {
 
     const startAudioRecording = async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const recorder = new MediaRecorder(stream);
+        const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm; codecs=opus' });
+        console.log("Recorder MIME type:", recorder.mimeType);
         mediaRecorderRef.current = recorder;
 
         let chunks = [];
