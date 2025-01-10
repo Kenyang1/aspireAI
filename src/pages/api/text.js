@@ -9,13 +9,13 @@ export default async function handler(req, res) {
             const completion = await openai.chat.completions.create({
                 model: "gpt-4o-mini",
                 messages: [
-                    { role: "system", content: `You are an interviewer assessing a software engineering intern. The question you asked is provided below. Analyze the candidate's response and determine if they provided sufficient detail and clarity. Write your evaluation as if it will be shared with the end user.` },
-                    { role: "user", content: `Question: ${question}` },
+                    { role: "system", content: `You are an interviewer assessing a software engineering intern. The question you asked is provided: ${question}. Analyze the candidate's response and determine if they provided sufficient detail and clarity. Write your evaluation as if it will be shared with the end user.` },
                     { role: "user", content: `Candidate Response: ${userResponse}` }
                 ],
                 max_completion_tokens: 150
             });
 
+            console.log('question asked', question, "user response was", userResponse);
             res.status(200).json({
                 messages: completion.choices[0].message
             });
