@@ -51,13 +51,18 @@ export default function Results () {
 
     // turn user audio into text using openai api (whisper model)
     async function sendToTranscription(audioFile, q) {
+
+        const formData = new FormData();
+        formData.append("audio", audioFile);
+
         try {
             const response = await fetch("/api/transcription", {
                 method: "POST",
                 // headers: {
                 //     "Content-Type": "application/octet-stream",
                 // },
-                body: audioFile,
+                // body: audioFile,
+                body: formData,
             });
 
             if (!response.ok) {
