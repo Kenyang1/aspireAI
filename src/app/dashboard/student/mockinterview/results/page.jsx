@@ -54,9 +54,9 @@ export default function Results () {
         try {
             const response = await fetch("/api/transcription", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                },
+                // headers: {
+                //     "Content-Type": "application/octet-stream",
+                // },
                 body: audioFile,
             });
 

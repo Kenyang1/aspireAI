@@ -52,7 +52,9 @@ export default async function handler(req, res) {
         });
 
         return;
+    } else {
+        console.log(req.method)
+        res.status(405).json({ error: "Method not allowed" });
     }
 
-    res.status(405).json({ error: "Method not allowed" });
 }
