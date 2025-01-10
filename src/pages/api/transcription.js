@@ -198,19 +198,12 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: "Invalid file type. Only WAV files are supported." });
             }
 
-            // Optional: Re-encode the file to ensure validity
-            const reencodedFilePath = `/tmp/reencodedAudio.wav`;
             try {
-                await new Promise((resolve, reject) => {
-                    ffmpeg(audioFilePath)
-                        .output(reencodedFilePath)
-                        .on("end", resolve)
-                        .on("error", reject)
-                        .run();
-                });
+
+                const fileBuffer = fs.readFileSync(audioFilePath);
 
                 const transcription = await openai.audio.transcriptions.create({
-                    file: fs.createReadStream(reencodedFilePath),
+                    file: fileBuffer,
                     model: "whisper-1",
                     response_format: "text",
                 });
