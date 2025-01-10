@@ -59,20 +59,20 @@
 //
 // }
 
-import formidable from "formidable";
+import { formidable } from "formidable";
 import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export const config = {
     api: {
-        bodyParser: false
+        bodyParser: false, // Disable body parsing to handle file uploads
     },
 };
 
 export default async function handler(req, res) {
     if (req.method === "POST") {
-        const form = new formidable.IncomingForm({ keepExtensions: true });
+        const form = formidable({ keepExtensions: true });
 
         form.parse(req, async (err, fields, files) => {
             if (err) {
@@ -80,11 +80,11 @@ export default async function handler(req, res) {
                 return res.status(500).json({ error: "Error processing file upload" });
             }
 
-            const audioBuffer = files.audio.filepath;
+            const audioFilePath = files.audio.filepath; // Path to the uploaded file
 
             try {
                 const transcription = await openai.audio.transcriptions.create({
-                    file: audioBuffer,
+                    file: fs.createReadStream(audioFilePath),
                     model: "whisper-1",
                     response_format: "text",
                 });
