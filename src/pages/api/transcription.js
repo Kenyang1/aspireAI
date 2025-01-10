@@ -15,7 +15,7 @@ export const config = {
 export default async function handler(req, res) {
     if (req.method === "POST") {
         console.log('req received')
-        const tempFilePath = path.join(process.cwd(), "uploads", "tempAudio.wav");
+        const tempFilePath = path.join(process.cwd(), "/tmp", "tempAudio.wav");
 
         if (!fs.existsSync(path.dirname(tempFilePath))) {
             fs.mkdirSync(path.dirname(tempFilePath), { recursive: true });
