@@ -32,7 +32,7 @@ export default function Results () {
                     const res = await fetch(url);
                     const blob = await res.blob();
                     const audioFile = new File([blob], `userAudio${index}`, { type: "audio/webm; codecs=opus" });
-                    const feedback = await sendToTranscription(audioFile, questionData[index]);
+                    const feedback = await sendToTranscription(audioFile, questionData[idxs[index]][0]);
                     feedbackResults.push(feedback);
                 }
 
@@ -43,10 +43,10 @@ export default function Results () {
             }
         };
 
-        if (audioFiles && audioFiles.length > 0) {
+        if (audioFiles && audioFiles.length > 0 && idxs && idxs.length > 0) {
             getFeedback();
         }
-    }, [audioFiles]);
+    }, [audioFiles, idxs]);
 
 
     // turn user audio into text using openai api (whisper model)
