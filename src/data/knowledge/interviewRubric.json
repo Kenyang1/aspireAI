@@ -1,0 +1,32 @@
+[
+  {
+    "id": "star-method",
+    "topic": "STAR Method",
+    "text": "STAR stands for Situation, Task, Action, Result. A strong behavioral answer briefly sets the Situation, states the Task/goal, describes the specific Actions the candidate personally took, and ends with a measurable Result or outcome. Weak answers stay vague about what the candidate specifically did, or skip the result entirely."
+  },
+  {
+    "id": "technical-depth",
+    "topic": "Technical Depth",
+    "text": "For technical questions, strong answers name specific tools, trade-offs, and reasoning steps rather than only high-level buzzwords. The candidate should explain WHY they'd take an approach, not just WHAT the approach is, and acknowledge at least one limitation or alternative."
+  },
+  {
+    "id": "communication-clarity",
+    "topic": "Communication Clarity",
+    "text": "Strong interview answers are structured (a clear beginning, middle, end) and avoid rambling. Filler words, run-on explanations, and answers that never actually answer the question are common weaknesses to flag."
+  },
+  {
+    "id": "ownership",
+    "topic": "Ownership and Initiative",
+    "text": "Interviewers listen for candidates using 'I' language about decisions they personally drove, not just describing what a team did. Strong answers show the candidate noticing a problem and acting on it without being told to."
+  },
+  {
+    "id": "role-fit",
+    "topic": "Role Fit",
+    "text": "Answers should be evaluated against what the target role actually requires. A technically correct answer can still be a weak fit if it ignores the specific skills, seniority, or domain (e.g. mobile vs. backend vs. data) called out in the job description."
+  },
+  {
+    "id": "quantifying-impact",
+    "topic": "Quantifying Impact",
+    "text": "Strong candidates attach a number to their results when possible (e.g. reduced load time by 40%, supported 20+ users) instead of only qualitative claims like 'it went well'. Coach candidates to add a metric, even an estimate, whenever the result would otherwise be vague."
+  }
+]
