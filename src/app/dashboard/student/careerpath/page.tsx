@@ -1,4 +1,38 @@
+'use client';
+
+/**
+ * Career Paths page
+ * -------------------
+ * Previously this page was a fully static grid -- every visitor saw the same
+ * 15 cards regardless of who they were, despite the app being branded
+ * "AI-powered". This version adds a short interest quiz that actually calls
+ * the Career Discovery Agent (RAG over src/data/knowledge/careers.json,
+ * see /api/agents/career-match) to rank and explain the top 3 matches for
+ * THIS student, using their own words. The full static grid stays below as
+ * "Browse All Majors" -- nothing is removed, only personalization is added.
+ */
+
+import { useState } from "react";
 import CareerCard from "./CareerCard";
+import ReactLoading from "react-loading";
+
+const INTEREST_OPTIONS = [
+  "Building software",
+  "Helping patients",
+  "Leading teams & projects",
+  "Data, numbers & analysis",
+  "Writing & storytelling",
+  "Lab work & research",
+  "Teaching & mentoring",
+  "Law, policy & government",
+  "Design & visual creativity",
+  "Sustainability & the environment",
+];
+
+interface CareerMatch {
+  major: string;
+  whyItFits: string;
+}
 
 const Page = () => {
   const cards = [
@@ -123,14 +157,110 @@ const Page = () => {
       linkUrl: "https://www.environmentalscience.org/",
     },
   ];
-  
+
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [matches, setMatches] = useState<CareerMatch[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const toggleInterest = (interest: string) => {
+    setSelectedInterests((prev) =>
+      prev.includes(interest) ? prev.filter((i) => i !== interest) : [...prev, interest]
+    );
+  };
+
+  const findMatches = async () => {
+    if (selectedInterests.length === 0) {
+      setError("Pick at least one interest to get personalized matches.");
+      return;
+    }
+    setError("");
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/agents/career-match", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ interests: selectedInterests }),
+      });
+      if (!response.ok) throw new Error(`Request failed: ${response.statusText}`);
+      const result = await response.json();
+      setMatches(result.matches);
+    } catch (err) {
+      console.error("Error finding career matches:", err);
+      setError("Something went wrong finding your matches. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">
           Career Paths for You & Me
         </h1>
-        <h4 className="text-xl font-semibold mb-4">College Majors</h4>
+
+        {/* Interest quiz -> personalized, AI-generated matches */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8 max-w-3xl mx-auto">
+          <h4 className="text-xl font-semibold mb-3">What are you into?</h4>
+          <p className="text-sm text-gray-600 mb-4">
+            Pick a few things that describe you, and we&apos;ll find the majors that
+            actually fit -- not just show you all of them.
+          </p>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {INTEREST_OPTIONS.map((interest) => (
+              <button
+                key={interest}
+                onClick={() => toggleInterest(interest)}
+                className={`px-3 py-1 rounded-full text-sm border transition-colors ${
+                  selectedInterests.includes(interest)
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-gray-700 border-gray-300 hover:border-blue-400"
+                }`}
+              >
+                {interest}
+              </button>
+            ))}
+          </div>
+          {error && <p className="text-sm text-red-500 mb-3">{error}</p>}
+          <button
+            onClick={findMatches}
+            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Find My Matches
+          </button>
+        </div>
+
+        {isLoading && (
+          <div className="flex justify-center mb-8">
+            <ReactLoading type="bubbles" color="black" />
+          </div>
+        )}
+
+        {matches && matches.length > 0 && (
+          <div className="mb-10">
+            <h4 className="text-xl font-semibold mb-4 text-center">Recommended For You</h4>
+            <div className="flex flex-wrap justify-center">
+              {matches.map((match, index) => {
+                const card = cards.find((c) => c.title === match.major);
+                if (!card) return null;
+                return (
+                  <CareerCard
+                    key={index}
+                    title={card.title}
+                    description={card.description}
+                    imageUrl={card.imageUrl}
+                    linkText={card.linkText}
+                    linkUrl={card.linkUrl}
+                    whyItFits={match.whyItFits}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <h4 className="text-xl font-semibold mb-4">Browse All Majors</h4>
         <div className="flex flex-wrap justify-center">
           {cards.map((card, index) => (
             <CareerCard

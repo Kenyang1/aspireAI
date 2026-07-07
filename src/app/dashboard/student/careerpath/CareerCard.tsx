@@ -6,6 +6,7 @@ interface CareerCardProps {
   imageUrl: string;
   linkText: string;
   linkUrl: string;
+  whyItFits?: string;
 }
 
 const CareerCard: React.FC<CareerCardProps> = ({
@@ -14,10 +15,17 @@ const CareerCard: React.FC<CareerCardProps> = ({
   imageUrl,
   linkText,
   linkUrl,
+  whyItFits,
 }) => (
   <div className="bg-white p-6 transform transition-transform duration-500 hover:scale-105 rounded shadow-md w-full md:w-1/3 lg:w-1/4 mx-2 mb-4 flex flex-col overflow-hidden">
     <h3 className="text-lg font-bold mb-2">{title}</h3>
     <p className="text-sm mb-4">{description}</p>
+    {whyItFits && (
+      <p className="text-sm mb-4 bg-blue-50 border border-blue-100 rounded p-2 text-blue-800">
+        <span className="font-semibold">Why it fits you: </span>
+        {whyItFits}
+      </p>
+    )}
     <div className="relative overflow-hidden h-40">
       <img
         src={imageUrl}
