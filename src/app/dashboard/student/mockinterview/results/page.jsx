@@ -1,22 +1,46 @@
 'use client'
 import { useEffect, useState } from "react";
-import {useRouter, useSearchParams} from "next/navigation";
-import { questionData } from "../../../../../data/data";
+import { useRouter } from "next/navigation";
 import ReactLoading from "react-loading";
 
+/**
+ * Results page -- now reads the exact question set that was actually asked
+ * (whichever set src/app/dashboard/student/mockinterview/page.jsx stashed in
+ * sessionStorage under "active_questions"), instead of re-importing the
+ * static question bank and indexing into it by position. That also fixes a
+ * subtle pre-existing bug: this page previously always labeled feedback with
+ * questionData[0..2]'s text regardless of which questions were actually
+ * randomly chosen.
+ *
+ * Feedback now comes from /api/agents/assess (the Feedback Agent, grounded
+ * with RAG against the interview rubric + this session's role brief) instead
+ * of the old single-paragraph /api/text call.
+ */
 export default function Results () {
     const [audioFiles, setAudioFiles] = useState(null);
-    const [idxs, setIdxs] = useState([]);
+    const [activeQuestions, setActiveQuestions] = useState([]);
+    const [roleBrief, setRoleBrief] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [feedback, setFeedback] = useState([]);
 
-    const searchParams = useSearchParams();
     const router = useRouter();
 
     useEffect(() => {
-        const questions = searchParams.get("questions");
-        setIdxs(questions.split(',').map(Number));
-    }, [])
+        try {
+            const stored = JSON.parse(sessionStorage.getItem("active_questions") ?? "[]");
+            setActiveQuestions(stored);
+        } catch (err) {
+            console.error("Could not read active_questions from sessionStorage:", err);
+            setActiveQuestions([]);
+        }
+
+        try {
+            const prep = JSON.parse(sessionStorage.getItem("tailored_prep") ?? "null");
+            setRoleBrief(prep?.roleBrief ?? null);
+        } catch (err) {
+            setRoleBrief(null);
+        }
+    }, []);
 
     useEffect(() => {
         const audioData = JSON.parse(sessionStorage.getItem("audio_files"));
@@ -32,7 +56,8 @@ export default function Results () {
                     const res = await fetch(url);
                     const blob = await res.blob();
                     const audioFile = new File([blob], `userAudio${index}`, { type: "audio/wav" });
-                    const feedback = await sendToTranscription(audioFile, questionData[index]);
+                    const question = activeQuestions[index]?.[0] ?? "";
+                    const feedback = await sendToTranscription(audioFile, question);
                     feedbackResults.push(feedback);
                 }
 
@@ -43,14 +68,14 @@ export default function Results () {
             }
         };
 
-        if (audioFiles && audioFiles.length > 0) {
+        if (audioFiles && audioFiles.length > 0 && activeQuestions.length > 0) {
             getFeedback();
         }
-    }, [audioFiles]);
+    }, [audioFiles, activeQuestions]);
 
 
-    // turn user audio into text using openai api (whisper model)
-    async function sendToTranscription(audioFile, q) {
+    // turn user audio into text using openai api (whisper model) -- unchanged
+    async function sendToTranscription(audioFile, question) {
         try {
             const response = await fetch("/api/transcription", {
                 method: "POST",
@@ -66,7 +91,7 @@ export default function Results () {
 
             const result = await response.json();
             if (result.transcription) {
-                const assessment = await makeAssessment(result.transcription, q);
+                const assessment = await makeAssessment(result.transcription, question);
                 return assessment;
             } else {
                 return null;
@@ -77,16 +102,17 @@ export default function Results () {
         }
     }
 
-    async function makeAssessment(transcription, q) {
+    async function makeAssessment(transcription, question) {
         try {
-            const response = await fetch("/api/text", {
+            const response = await fetch("/api/agents/assess", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    question: q,
-                    userResponse: transcription,
+                    question,
+                    transcript: transcription,
+                    roleBrief,
                 })
             });
 
@@ -95,9 +121,10 @@ export default function Results () {
             }
 
             const result = await response.json();
-            return result
+            return result.feedback;
         } catch (error) {
             console.error("Error getting assessment", error);
+            return null;
         }
     }
 
@@ -116,17 +143,44 @@ export default function Results () {
                 isLoading ?
                     <ReactLoading type="bubbles" color="black" /> :
                     <div className="flex flex-col gap-5 items-center">
-                        <div className="flex gap-5">
+                        <div className="flex gap-5 flex-wrap justify-center">
                             {
-                                idxs.map((idx, index) => (
+                                activeQuestions.map((question, index) => (
                                 <div key={index} className="w-full max-w-2xl h-[40%] overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200">
-                                    <p className="text-lg font-semibold text-gray-700 mb-2">{questionData[idx][0]}</p>
+                                    <p className="text-lg font-semibold text-gray-700 mb-2">{question[0]}</p>
                                     <audio controls className="w-full mb-4">
                                         <source src={audioFiles[index]} type="audio/wav"></source>
                                     </audio>
-                                    <p className="text-sm text-gray-600 ">
-                                        {feedback[index].messages.content}
-                                    </p>
+                                    {
+                                        feedback[index] ?
+                                        <div className="text-sm text-gray-700 space-y-2">
+                                            <p className="font-semibold">
+                                                STAR Score: {feedback[index].starScore}/5
+                                            </p>
+                                            {feedback[index].strengths?.length > 0 && (
+                                                <div>
+                                                    <p className="font-semibold text-green-700">Strengths</p>
+                                                    <ul className="list-disc list-inside">
+                                                        {feedback[index].strengths.map((s, i) => <li key={i}>{s}</li>)}
+                                                    </ul>
+                                                </div>
+                                            )}
+                                            {feedback[index].gaps?.length > 0 && (
+                                                <div>
+                                                    <p className="font-semibold text-amber-700">Areas to Improve</p>
+                                                    <ul className="list-disc list-inside">
+                                                        {feedback[index].gaps.map((g, i) => <li key={i}>{g}</li>)}
+                                                    </ul>
+                                                </div>
+                                            )}
+                                            {feedback[index].rewriteSuggestion && (
+                                                <p className="italic text-gray-600">
+                                                    Try instead: {feedback[index].rewriteSuggestion}
+                                                </p>
+                                            )}
+                                        </div> :
+                                        <p className="text-sm text-gray-400">No feedback available.</p>
+                                    }
                                 </div>
                                 ))
                             }
