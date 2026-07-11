@@ -1,0 +1,77 @@
+[
+  {
+    "id": "compsci",
+    "major": "Computer Science",
+    "text": "Computer Science covers software development, data science, AI/ML, and cybersecurity. Great fit for people who like building things, solving logic puzzles, breaking down big problems into small steps, and working with fast-changing tools. Common entry roles: software engineer, QA engineer, data analyst."
+  },
+  {
+    "id": "business",
+    "major": "Business Administration",
+    "text": "Business Administration prepares students for leadership roles covering management, finance, marketing, and entrepreneurship. Great fit for people who like organizing people and resources, thinking about strategy, and communicating across teams. Common entry roles: business analyst, project coordinator, marketing associate."
+  },
+  {
+    "id": "nursing",
+    "major": "Nursing",
+    "text": "Nursing focuses on hands-on patient care in hospitals, clinics, and community health settings. Great fit for people who are calm under pressure, detail-oriented, and motivated by directly helping people day to day. Common entry roles: registered nurse, clinical assistant."
+  },
+  {
+    "id": "psychology",
+    "major": "Psychology",
+    "text": "Psychology is the study of human behavior, emotions, and mental processes. Great fit for people curious about why people think and act the way they do, and who want to work in counseling, therapy, research, or human resources. Common entry roles: HR coordinator, research assistant, case worker."
+  },
+  {
+    "id": "biology",
+    "major": "Biology",
+    "text": "Biology is a foundational science major for medicine, research, environmental science, and biotechnology. Great fit for people who enjoy lab work, careful observation, and long-term research questions. Common entry roles: lab technician, research assistant, pre-med track."
+  },
+  {
+    "id": "engineering",
+    "major": "Engineering",
+    "text": "Engineering (electrical, civil, mechanical, chemical) is for students who like hands-on, technical problem-solving with physical or infrastructure systems. Great fit for people who enjoy math, physics, and designing things that have to actually work in the real world. Common entry roles: engineering intern, junior design engineer."
+  },
+  {
+    "id": "education",
+    "major": "Education",
+    "text": "Education prepares students for teaching and instructional-design roles across early childhood, secondary, and special education. Great fit for people who are patient, enjoy explaining things clearly, and want a career centered on mentoring others. Common entry roles: teacher, teaching assistant, curriculum coordinator."
+  },
+  {
+    "id": "health-professions",
+    "major": "Health Professions",
+    "text": "Health Professions covers public health, pre-med, dental hygiene, and physical therapy. Great fit for people motivated by healthcare who want a more specialized clinical or public-health path than general nursing. Common entry roles: public health assistant, PT aide, dental hygienist."
+  },
+  {
+    "id": "communication",
+    "major": "Communication",
+    "text": "Communication covers journalism, public relations, advertising, and media studies. Great fit for people who like writing, storytelling, and understanding how messages reach an audience. Common entry roles: PR assistant, content coordinator, social media associate."
+  },
+  {
+    "id": "finance",
+    "major": "Finance and Accounting",
+    "text": "Finance and Accounting prepares students for banking, investment, corporate finance, and accounting roles. Great fit for people who like numbers, detail-oriented analysis, and understanding how money moves through a business. Common entry roles: financial analyst, accounting associate."
+  },
+  {
+    "id": "poli-sci",
+    "major": "Political Science",
+    "text": "Political Science focuses on government, politics, international relations, and law. Great fit for people interested in public service, policy-making, or pursuing law school. Common entry roles: policy research assistant, legislative aide, paralegal."
+  },
+  {
+    "id": "art-design",
+    "major": "Art and Design",
+    "text": "Art and Design covers fine arts, graphic design, animation, and digital media. Great fit for people who think visually and want a career built around creative production. Common entry roles: junior graphic designer, production artist."
+  },
+  {
+    "id": "sociology",
+    "major": "Sociology",
+    "text": "Sociology is the study of society, social behavior, and institutions. Great fit for people interested in social work, community research, or public policy from a big-picture, systems view of people. Common entry roles: case worker, community outreach coordinator."
+  },
+  {
+    "id": "economics",
+    "major": "Economics",
+    "text": "Economics studies economies, markets, and resource allocation. Great fit for people who like abstract reasoning about incentives and data-driven arguments, and want options spanning business, government, and research. Common entry roles: research analyst, economic consulting associate."
+  },
+  {
+    "id": "environmental-science",
+    "major": "Environmental Science",
+    "text": "Environmental Science focuses on understanding and addressing environmental challenges. Great fit for people passionate about sustainability, conservation, and fieldwork mixed with policy. Common entry roles: sustainability coordinator, environmental analyst."
+  }
+]

@@ -124,12 +124,25 @@ function VideoPageContent () {
     // };
 
     const getRandomQuestions = () => {
+        try {
+            const tailored = JSON.parse(sessionStorage.getItem("tailored_prep") || "null");
+            if (Array.isArray(tailored?.questions) && tailored.questions.length > 0) {
+                setQuestionIdx([]);
+                sessionStorage.setItem("active_questions", JSON.stringify(tailored.questions));
+                return tailored.questions;
+            }
+        } catch (error) {
+            console.error("Could not load tailored interview questions:", error);
+        }
+
         const idx = Array.from({ length: questionData.length }, (_, i) => i)
             .sort(() => Math.random() - 0.5)
             .slice(0, 2);
 
         setQuestionIdx(idx);
-        return idx.map(idx => questionData[idx]);
+        const selected = idx.map(idx => questionData[idx]);
+        sessionStorage.setItem("active_questions", JSON.stringify(selected));
+        return selected;
     };
 
     useEffect(() => {
@@ -185,7 +198,8 @@ function VideoPageContent () {
     useEffect(() => {
         if (cont) {
             console.log('set to true')
-            router.push(`/dashboard/student/mockinterview/results?questions=${encodeURIComponent(questionIdx.join(','))}`);
+            const suffix = questionIdx.length ? `?questions=${encodeURIComponent(questionIdx.join(','))}` : "";
+            router.push(`/dashboard/student/mockinterview/results${suffix}`);
             setIsLoading(false)
         }
     }, [cont]);

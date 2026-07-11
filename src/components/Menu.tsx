@@ -28,6 +28,12 @@ const menuItems = [
       },
       {
         icon: "/interviewers.png",
+        label: "Interview Prep",
+        href: "/dashboard/student/prep",
+        visible: ["student"],
+      },
+      {
+        icon: "/interviewers.png",
         label: "Mock Interview",
         href: "/dashboard/student/mockinterview",
         visible: ["student"],
