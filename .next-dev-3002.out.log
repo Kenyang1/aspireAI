@@ -81,3 +81,18 @@
  GET /dashboard/student 200 in 162ms
  ✓ Compiled /dashboard/student/roadmap in 440ms (461 modules)
  ✓ Compiled /dashboard/student/chat in 433ms (472 modules)
+ ○ Compiling /_not-found ...
+ GET /dashboard/student 500 in 222ms
+ ✓ Compiled /_not-found in 812ms (847 modules)
+ ○ Compiling /_not-found ...
+ GET /dashboard/student 200 in 1357ms
+ ✓ Compiled /_not-found in 2.3s (1263 modules)
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 598ms (458 modules)
+ GET /favicon.ico 200 in 809ms
+ ✓ Compiled in 652ms (849 modules)
+ ✓ Compiled in 1040ms (849 modules)
+ ○ Compiling /dashboard/student/mockinterview ...
+ ✓ Compiled /dashboard/student/mockinterview in 883ms (433 modules)
+ ○ Compiling /dashboard/student/mockinterview/video ...
+ ✓ Compiled /dashboard/student/mockinterview/video in 2.5s (762 modules)
