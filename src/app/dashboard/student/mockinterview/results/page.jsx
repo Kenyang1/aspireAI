@@ -1,10 +1,10 @@
 'use client'
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {useRouter, useSearchParams} from "next/navigation";
 import { questionData } from "../../../../../data/data";
 import ReactLoading from "react-loading";
 
-export default function Results () {
+function ResultsContent () {
     const [audioFiles, setAudioFiles] = useState(null);
     const [idxs, setIdxs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -15,11 +15,16 @@ export default function Results () {
 
     useEffect(() => {
         const questions = searchParams.get("questions");
-        setIdxs(questions.split(',').map(Number));
-    }, [])
+        if (!questions) {
+            router.push('/dashboard/student/mockinterview');
+            return;
+        }
+
+        setIdxs(questions.split(',').map(Number).filter((idx) => Number.isInteger(idx)));
+    }, [router, searchParams])
 
     useEffect(() => {
-        const audioData = JSON.parse(sessionStorage.getItem("audio_files"));
+        const audioData = JSON.parse(sessionStorage.getItem("audio_files") || "[]");
         setAudioFiles(audioData);
     }, []);
 
@@ -32,7 +37,7 @@ export default function Results () {
                     const res = await fetch(url);
                     const blob = await res.blob();
                     const audioFile = new File([blob], `userAudio${index}`, { type: "audio/wav" });
-                    const feedback = await sendToTranscription(audioFile, questionData[index]);
+                    const feedback = await sendToTranscription(audioFile, questionData[idxs[index]]);
                     feedbackResults.push(feedback);
                 }
 
@@ -43,10 +48,12 @@ export default function Results () {
             }
         };
 
-        if (audioFiles && audioFiles.length > 0) {
+        if (audioFiles && audioFiles.length > 0 && idxs.length > 0) {
             getFeedback();
+        } else if (audioFiles && audioFiles.length === 0) {
+            setIsLoading(false);
         }
-    }, [audioFiles]);
+    }, [audioFiles, idxs]);
 
 
     // turn user audio into text using openai api (whisper model)
@@ -125,7 +132,7 @@ export default function Results () {
                                         <source src={audioFiles[index]} type="audio/wav"></source>
                                     </audio>
                                     <p className="text-sm text-gray-600 ">
-                                        {feedback[index].messages.content}
+                                        {feedback[index]?.messages?.content || "No feedback was generated for this response."}
                                     </p>
                                 </div>
                                 ))
@@ -139,5 +146,13 @@ export default function Results () {
                     </div>
             }
         </div>
+    );
+}
+
+export default function Results() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ResultsContent />
+        </Suspense>
     );
 }

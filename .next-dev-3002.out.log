@@ -1,0 +1,83 @@
+
+> lama-dev-next-dashboard@0.1.0 dev
+> next dev --port 3002
+
+  ▲ Next.js 14.2.5
+  - Local:        http://localhost:3002
+
+ ✓ Starting...
+ ✓ Ready in 7s
+ ○ Compiling /dashboard/student/mockinterview/video ...
+ ✓ Compiled /dashboard/student/mockinterview/video in 12.3s (1255 modules)
+ GET /dashboard/student/mockinterview/video?type=video 200 in 13794ms
+ ✓ Compiled in 1337ms (1246 modules)
+ ✓ Compiled /_not-found in 431ms (1235 modules)
+ GET /dashboard/student/mockinterview/video?type=video 404 in 740ms
+ ○ Compiling /dashboard/student ...
+ ✓ Compiled /dashboard/student in 988ms (1292 modules)
+ GET /dashboard/student 200 in 1296ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1242ms (1298 modules)
+ GET / 200 in 1612ms
+ GET /dashboard 404 in 58ms
+ GET /dashboard/student 200 in 185ms
+ ✓ Compiled /dashboard/student/roadmap in 490ms (979 modules)
+ ○ Compiling /dashboard/student/mockinterview ...
+ ✓ Compiled /dashboard/student/mockinterview in 1048ms (993 modules)
+ ✓ Compiled /dashboard/student/mockinterview/video in 260ms (697 modules)
+ ○ Compiling /dashboard/student/chat ...
+ ✓ Compiled /dashboard/student/chat in 667ms (1343 modules)
+ ○ Compiling /api/chat ...
+ ✓ Compiled /api/chat in 704ms (760 modules)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2.1s (1578 modules)
+ POST /api/chat 500 in 4181ms
+ ✓ Compiled /dashboard/student/progress in 486ms (1585 modules)
+ ○ Compiling /dashboard/student/settings ...
+ ✓ Compiled /dashboard/student/settings in 687ms (1586 modules)
+ ✓ Compiled /dashboard/student in 361ms (778 modules)
+ ○ Compiling /dashboard/student/careerpath ...
+ ✓ Compiled /dashboard/student/careerpath in 728ms (1275 modules)
+ ○ Compiling /dashboard/student/mockinterview ...
+ ✓ Compiled /dashboard/student/mockinterview in 1982ms (436 modules)
+ ✓ Compiled in 3.3s (1255 modules)
+ ✓ Compiled in 1394ms (1259 modules)
+ ✓ Compiled in 1642ms (1259 modules)
+ ✓ Compiled in 1849ms (1259 modules)
+ ✓ Compiled /_not-found in 527ms (1248 modules)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 710ms (1250 modules)
+ GET /dashboard/student/roadmap 500 in 1085ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1010ms (427 modules)
+ GET / 200 in 1735ms
+ GET /dashboard/student/roadmap 200 in 1224ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1475ms (457 modules)
+ GET /favicon.ico 200 in 1797ms
+ GET /dashboard/student 200 in 204ms
+ GET /dashboard/student 200 in 186ms
+ ○ Compiling /dashboard/student/chat ...
+ ✓ Compiled /dashboard/student/chat in 742ms (471 modules)
+ ○ Compiling /api/chat ...
+ ✓ Compiled /api/chat in 558ms (489 modules)
+ POST /api/chat 500 in 721ms
+ ✓ Compiled /dashboard/student/mockinterview in 513ms (452 modules)
+ ✓ Compiled / in 334ms (460 modules)
+ ✓ Compiled in 2.1s (1269 modules)
+ ✓ Compiled in 1009ms (1269 modules)
+ GET / 200 in 395ms
+ GET / 200 in 212ms
+ ○ Compiling /auth/login ...
+ ✓ Compiled /auth/login in 2.8s (1265 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 778ms (1268 modules)
+ GET /_next/static/webpack/5acea4f58651a67d.webpack.hot-update.json 404 in 1134ms
+ GET / 200 in 272ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 796ms (463 modules)
+ GET /auth/login 200 in 420ms
+ GET /favicon.ico 200 in 42ms
+ GET /dashboard/student 200 in 162ms
+ ✓ Compiled /dashboard/student/roadmap in 440ms (461 modules)
+ ✓ Compiled /dashboard/student/chat in 433ms (472 modules)

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface CareerCardProps {
   title: string;
@@ -19,10 +20,12 @@ const CareerCard: React.FC<CareerCardProps> = ({
     <h3 className="text-lg font-bold mb-2">{title}</h3>
     <p className="text-sm mb-4">{description}</p>
     <div className="relative overflow-hidden h-40">
-      <img
+      <Image
         src={imageUrl}
         alt={title}
-        className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
+        fill
+        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+        className="object-cover transition-transform duration-500 hover:scale-110"
       />
     </div>
     <div className="mt-auto">

@@ -1,18 +1,26 @@
-// src/app/page.tsx
-"use client"; // Add this line to make this a Client Component
+import BrandLogo from "@/components/BrandLogo";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Bot, BriefcaseBusiness, ChartNoAxesCombined, FileCheck2, MessageCircleMore, Mic2, Sparkles } from "lucide-react";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+const features = [
+  {icon:MessageCircleMore,title:"A mentor who knows your goals",text:"Ask career questions, compare options, and turn advice into a practical next step."},
+  {icon:BriefcaseBusiness,title:"Career paths built around you",text:"Explore roles through your interests, strengths, lifestyle, and real entry routes."},
+  {icon:FileCheck2,title:"Feedback you can act on",text:"Improve your resume with clear priorities, examples, and role-specific guidance."},
+  {icon:Mic2,title:"Practice before it counts",text:"Build interview confidence with realistic questions and focused coaching."},
+];
 
-const Homepage = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    // Redirect to the signup page
-    router.push("/auth/signup");
-  }, [router]);
-
-  return <div>Redirecting...</div>; // Optional: Show a loading message before redirect
-};
-
-export default Homepage;
+export default function Home(){return <main className="app-bg noise overflow-hidden">
+  <nav className="mx-auto flex h-20 w-full max-w-[1320px] items-center justify-between px-5 lg:px-8">
+    <BrandLogo />
+    <div className="hidden items-center gap-8 text-sm text-slate-400 md:flex"><a href="#journey">How it works</a><a href="#features">Features</a><a href="#stories">For you</a></div>
+    <div className="flex items-center gap-2"><Link href="/auth/login" className="secondary-btn hidden sm:inline-flex">Log in</Link><Link href="/auth/signup" className="primary-btn">Start free <ArrowRight size={16}/></Link></div>
+  </nav>
+  <section className="mx-auto grid min-h-[690px] max-w-[1320px] items-center gap-8 px-5 pb-16 pt-10 lg:grid-cols-[1.05fr_.95fr] lg:px-8">
+    <div className="relative z-10"><div className="pill mb-7"><Sparkles size={13} className="text-blue-400"/> Your future, made clearer</div><h1 className="max-w-3xl text-[44px] font-semibold leading-[1.02] sm:text-[62px] lg:text-[76px]">Build a future you&apos;re <span className="text-blue-400">excited about.</span></h1><p className="mt-6 max-w-xl text-lg leading-8 text-slate-400">Explore careers, strengthen your skills, and prepare for what comes next with an AI mentor that understands your goals.</p><div className="mt-9 flex flex-wrap gap-3"><Link href="/auth/signup" className="primary-btn">Start your journey <ArrowRight size={17}/></Link><Link href="/dashboard/student" className="secondary-btn">Preview the experience</Link></div><div className="mt-10 flex items-center gap-5 text-sm text-slate-500"><span>No credit card</span><span>Personalized in minutes</span></div></div>
+    <div className="relative flex min-h-[510px] items-end justify-center"><div className="absolute inset-x-10 bottom-10 top-10 rounded-full bg-blue-500/15 blur-3xl"/><div className="surface-strong glass-drift absolute left-0 top-16 z-10 w-56 p-4"><p className="text-xs text-slate-500">CAREER READINESS</p><div className="mt-2 flex items-end justify-between"><b className="text-3xl">68%</b><span className="text-xs text-green-400">+8 this month</span></div><div className="metric-track mt-3"><div className="metric-fill w-[68%]"/></div></div><Image src="/brand/aspire-space-mascot.png" priority width={500} height={700} alt="Aspire, your friendly AI mentor" className="mascot-float relative z-0 h-[500px] w-auto object-contain"/><div className="surface-strong glass-drift-delayed absolute bottom-10 right-0 z-10 w-64 p-4"><div className="flex items-center gap-2 text-sm font-semibold"><Bot size={16} className="text-blue-400"/> Your next move</div><p className="mt-2 text-sm leading-6 text-slate-400">Practice your introduction to strengthen interview confidence.</p></div></div>
+  </section>
+  <section id="journey" className="border-y border-white/[.07] bg-[#080c13]/80"><div className="mx-auto max-w-[1320px] px-5 py-20 lg:px-8"><p className="eyebrow">One connected journey</p><h2 className="mt-3 max-w-2xl text-3xl font-semibold sm:text-4xl">Know where you stand and what to do next.</h2><div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-white/[.07] bg-white/[.07] md:grid-cols-4">{["Discover your direction","Build your roadmap","Practice with confidence","See meaningful progress"].map((x,i)=><div key={x} className="bg-[#0a0f18] p-6"><span className="text-sm text-blue-400">0{i+1}</span><h3 className="mt-12 text-lg font-semibold">{x}</h3></div>)}</div></div></section>
+  <section id="features" className="mx-auto max-w-[1320px] px-5 py-24 lg:px-8"><div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><p className="eyebrow">Built around your momentum</p><h2 className="mt-3 text-4xl font-semibold">Less guessing.<br/>More moving forward.</h2><p className="mt-5 text-slate-400">Every feature connects back to your goals, so progress never feels random.</p></div><div className="grid gap-4 sm:grid-cols-2">{features.map(({icon:Icon,title,text})=><div key={title} className="surface card-hover p-6"><Icon className="text-blue-400" size={23}/><h3 className="mt-8 text-lg font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{text}</p></div>)}</div></div></section>
+  <section id="stories" className="mx-auto mb-10 max-w-[1320px] px-5 lg:px-8"><div className="surface-strong flex flex-col items-center px-6 py-16 text-center"><ChartNoAxesCombined className="text-blue-400"/><h2 className="mt-5 text-3xl font-semibold">Your path does not have to be obvious yet.</h2><p className="mt-4 max-w-xl text-slate-400">Aspire meets you where you are and helps you make the next decision with confidence.</p><Link href="/auth/signup" className="primary-btn mt-8">Start your journey <ArrowRight size={17}/></Link></div></section>
+</main>}

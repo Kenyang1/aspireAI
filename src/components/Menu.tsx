@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "firebase/auth";
-import { auth } from "@/app/firebase/firebaseConfig";
+import { auth, firebaseConfigured } from "@/app/firebase/firebaseConfig";
 
 const menuItems = [
   {
@@ -35,7 +35,7 @@ const menuItems = [
       {
         icon: "/resume.png",
         label: "Resume Review",
-        href: "/resume-review",
+        href: "/dashboard/student/resume",
         visible: ["student"],
       },
     ],
@@ -68,7 +68,9 @@ const menuItems = [
 const Menu = ({ userType }: { userType: string }) => {
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Logs the user out
+      if (firebaseConfigured) {
+        await signOut(auth);
+      }
       window.location.href = "/auth/login"; // Redirects to login page
     } catch (error) {
       console.error("Error logging out:", error);

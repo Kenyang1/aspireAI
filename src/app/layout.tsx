@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AspireAI",
-  description: "Next.js Career Path Management System",
+  title: "Aspire AI | Your future, made clearer",
+  description: "A friendly AI mentor for careers, resumes, interviews, and meaningful progress.",
 };
 
 export default function RootLayout({

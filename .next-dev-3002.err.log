@@ -1,0 +1,84 @@
+(node:40104) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ⨯ OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+    at new OpenAI (file:///C:/Users/kenya/OneDrive/Desktop/Coding%20Projects/VSCode%20Projects/aspireAI/node_modules/openai/index.mjs:42:19)
+    at eval (webpack-internal:///(api)/./src/pages/api/chat.js:10:16)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at eval (./src/app/dashboard/student/roadmap/page.tsx:8:166)
+    at (rsc)/./src/app/dashboard/student/roadmap/page.tsx (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\app\dashboard\student\roadmap\page.js:227:1)
+    at Function.__webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at async Promise.all (index 0)
+    at async Promise.all (index 0)
+    at async Promise.all (index 0)
+digest: "4084835049"
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at eval (./src/app/dashboard/student/roadmap/page.tsx:8:166)
+    at (rsc)/./src/app/dashboard/student/roadmap/page.tsx (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\app\dashboard\student\roadmap\page.js:227:1)
+    at Function.__webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at async Promise.all (index 0)
+    at async Promise.all (index 0)
+    at async Promise.all (index 0)
+digest: "4084835049"
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at eval (./src/app/dashboard/student/roadmap/page.tsx:8:166)
+    at (rsc)/./src/app/dashboard/student/roadmap/page.tsx (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\app\dashboard\student\roadmap\page.js:227:1)
+    at Function.__webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+digest: "1897530520"
+TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(rsc)/./src/app/dashboard/student/roadmap/page.tsx:8:166)
+    at (rsc)/./src/app/dashboard/student/roadmap/page.tsx (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\app\dashboard\student\roadmap\page.js:227:1)
+    at Function.__webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at async e7 (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:396786)
+    at async tS (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:400444)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401005)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401136)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401136)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401136)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401136)
+    at async tO (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:36:2130)
+    at async C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:36:2722 {
+  digest: '1897530520'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(rsc)/./src/app/dashboard/student/roadmap/page.tsx:8:166)
+    at (rsc)/./src/app/dashboard/student/roadmap/page.tsx (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\app\dashboard\student\roadmap\page.js:227:1)
+    at Function.__webpack_require__ (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\.next\server\webpack-runtime.js:33:42)
+    at async e7 (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:396786)
+    at async tS (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:400444)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401005)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401136)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401136)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401136)
+    at async tw (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:401136)
+    at async tO (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:36:2130)
+    at async C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:36:2722 {
+  digest: '1897530520',
+  page: '/dashboard/student/roadmap'
+}
+ ⨯ OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+    at new OpenAI (file:///C:/Users/kenya/OneDrive/Desktop/Coding%20Projects/VSCode%20Projects/aspireAI/node_modules/openai/index.mjs:42:19)
+    at eval (webpack-internal:///(api)/./src/pages/api/chat.js:10:16)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at loadManifest (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\load-manifest.js:35:27)
+    at DevServer.getNextFontManifest (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\next-server.js:745:47)
+    at DevServer.findPageComponents (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\dev\next-dev-server.js:571:43)
+    at async DevServer.renderPageComponent (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\base-server.js:1917:24)
+    at async DevServer.renderToResponseImpl (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\base-server.js:1969:32)
+    at async DevServer.pipeImpl (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\next-server.js:272:17)
+    at async DevServer.handleRequestImpl (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\base-server.js:816:17)
+    at async C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\dev\next-dev-server.js:339:20
+    at async Span.traceAsyncFn (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\trace\trace.js:154:20)
+    at async DevServer.handleRequest (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\dev\next-dev-server.js:336:24)
+    at async invokeRender (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\lib\router-server.js:174:21)
+    at async handleRequest (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\lib\router-server.js:353:24)
+    at async requestHandlerImpl (C:\Users\kenya\OneDrive\Desktop\Coding Projects\VSCode Projects\aspireAI\node_modules\next\dist\server\lib\router-server.js:377:13) {
+  page: '/'
+}
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload

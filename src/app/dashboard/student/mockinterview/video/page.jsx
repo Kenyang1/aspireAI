@@ -72,7 +72,7 @@
 
 import {useRouter, useSearchParams} from "next/navigation";
 import Webcam from "../../../../../components/Webcam";
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {questionData} from "../../../../../data/data";
 import * as PropTypes from "prop-types";
 import {Box, LinearProgress, Typography} from "@mui/material";
@@ -98,7 +98,7 @@ LinearProgressWithLabel.propTypes = {
     value: PropTypes.number,
     variant: PropTypes.string
 };
-export default function Page () {
+function VideoPageContent () {
 
     const [countdown, setCountdown] = useState(5);
     const [showOverlay, setShowOverlay] = useState(true);
@@ -276,4 +276,12 @@ export default function Page () {
             }
         </div>
     )
+}
+
+export default function Page() {
+    return (
+        <Suspense fallback={<ReactLoading type="bubbles" color="black" />}>
+            <VideoPageContent />
+        </Suspense>
+    );
 }
