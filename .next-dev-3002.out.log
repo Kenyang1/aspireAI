@@ -96,3 +96,18 @@
  ✓ Compiled /dashboard/student/mockinterview in 883ms (433 modules)
  ○ Compiling /dashboard/student/mockinterview/video ...
  ✓ Compiled /dashboard/student/mockinterview/video in 2.5s (762 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 5.4s (755 modules)
+ GET / 200 in 6623ms
+ GET /dashboard/student 200 in 317ms
+ ○ Compiling /dashboard/student/careerpath ...
+ ✓ Compiled /dashboard/student/careerpath in 1900ms (1604 modules)
+ GET /dashboard/student/careerpath 200 in 2355ms
+ GET /dashboard/student/chat 200 in 176ms
+ GET /dashboard/student 200 in 181ms
+ ○ Compiling /dashboard/student/roadmap ...
+ ✓ Compiled /dashboard/student/roadmap in 575ms (756 modules)
+ GET /dashboard/student 200 in 651ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 2.5s (1590 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 3062ms

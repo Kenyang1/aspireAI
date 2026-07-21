@@ -71,8 +71,14 @@ The presentation assets use screenshots captured from the running application ra
 | Animation | CSS animations and Framer Motion |
 | Authentication | Firebase Authentication, React Firebase Hooks |
 | AI | OpenAI chat completions, Whisper transcription, embeddings |
-| Career intelligence | Local JSON knowledge base, precomputed embeddings, cosine-similarity RAG |
+| Retrieval | Qdrant vector search with an in-process cosine-similarity fallback |
+| Persistence | PostgreSQL (node-postgres in production, embedded PGlite in local dev) |
+| Caching | Redis (ioredis) with in-memory fallback — embedding cache, response cache, rate limiting |
+| Adaptivity | UCB1 multi-armed bandit (explanation strategy selection), Bayesian Knowledge Tracing (per-competency interview mastery) |
 | Media | React Webcam, MediaRecorder, WAV utilities |
+| Delivery | GitHub Actions CI (lint, typecheck, build, and an integration job against real Postgres/Qdrant/Redis), Docker, docker-compose, Kubernetes manifests |
+
+Every infrastructure service is optional at runtime: when `DATABASE_URL`, `QDRANT_URL`, or `REDIS_URL` are unset the app transparently falls back to an embedded PostgreSQL (PGlite), in-process vector search, and an in-memory cache, so `npm run dev` works with zero services installed. `GET /api/health` reports which driver each layer is using.
 
 The current AI implementation references `gpt-4o`, `whisper-1`, and `text-embedding-3-small`. Model availability and API behavior may change over time.
 
@@ -100,15 +106,29 @@ The current AI implementation references `gpt-4o`, `whisper-1`, and `text-embedd
 ```text
 Browser UI
   ├─ Firebase Authentication
-  ├─ AI mentor API
+  ├─ AI mentor API ──────────────── rate limit (Redis) · history log (PostgreSQL)
   ├─ Career matching API
-  │    └─ local embeddings → cosine retrieval → career agent
+  │    ├─ UCB1 bandit picks explanation strategy (PostgreSQL arm stats)
+  │    ├─ vector retrieval (Qdrant, cosine fallback) → career agent
+  │    └─ response + embedding cache (Redis) · interaction log (PostgreSQL)
   └─ Interview workflow
        ├─ resume agent → research agent → interviewer agent
-       └─ recording → Whisper transcription → feedback agent
+       ├─ recording → Whisper transcription → feedback agent
+       └─ STAR score → Bayesian Knowledge Tracing → skill_mastery (PostgreSQL)
 ```
 
-The agent pipeline is implemented with typed, sequential functions rather than an external orchestration framework. Career and rubric knowledge are stored in `src/data`, while `src/lib/rag.ts` performs retrieval against precomputed embedding files.
+The agent pipeline is implemented with typed, sequential functions rather than an external orchestration framework. Career and rubric knowledge are stored in `src/data`; `src/lib/vectorStore.ts` retrieves it from Qdrant when configured (sync once with `npm run sync:qdrant`) and otherwise scans the precomputed embedding files in-process.
+
+Supporting modules: `src/lib/db.ts` (PostgreSQL driver selection), `src/lib/repository.ts` (all SQL), `src/lib/cache.ts` (Redis/in-memory caching and rate limiting), `src/lib/bandit.ts` (UCB1), `src/lib/bkt.ts` (knowledge tracing).
+
+### Running the full stack with Docker
+
+```bash
+docker compose up --build                              # app + PostgreSQL + Qdrant + Redis
+docker compose exec app node scripts/sync-qdrant.mjs   # load embeddings into Qdrant once
+```
+
+Kubernetes manifests for the same topology live in `k8s/aspireai.yaml`. See `.env.example` for connecting the app to hosted services (Neon, Qdrant Cloud, Upstash) instead.
 
 ## Local Setup
 

@@ -10,16 +10,12 @@
  * pay for itself.)
  */
 
-import careersEmbeddings from "../data/embeddings/careers.json";
-import rubricEmbeddings from "../data/embeddings/rubric.json";
-import { KnowledgeChunk, retrieveTopK } from "../lib/rag";
+import { KnowledgeChunk } from "../lib/rag";
+import { retrieve } from "../lib/vectorStore";
 import { extractProfile } from "./resumeAgent";
 import { buildRoleBrief } from "./researchAgent";
 import { generateQuestions } from "./interviewerAgent";
 import { CandidateProfile, RoleBrief, TailoredQuestion } from "./types";
-
-const careerChunks = careersEmbeddings as unknown as KnowledgeChunk[];
-const rubricChunks = rubricEmbeddings as unknown as KnowledgeChunk[];
 
 export interface PrepPipelineResult {
   profile: CandidateProfile;
@@ -37,7 +33,7 @@ export async function runPrepPipeline(
 ): Promise<PrepPipelineResult> {
   const profile = await extractProfile(resumeText);
 
-  const rubricContext = await retrieveTopK(jobDescription, rubricChunks, 3);
+  const rubricContext = await retrieve("rubric", jobDescription, 3);
   const roleBrief = await buildRoleBrief(jobDescription, rubricContext);
 
   const questions = await generateQuestions(profile, roleBrief, 3);
@@ -47,10 +43,10 @@ export async function runPrepPipeline(
 
 /** Retrieval step used by the Feedback Agent's API route. */
 export async function retrieveRubricContext(query: string, k = 3): Promise<KnowledgeChunk[]> {
-  return retrieveTopK(query, rubricChunks, k);
+  return retrieve("rubric", query, k);
 }
 
 /** Retrieval step used by the Career Discovery Agent's API route. */
 export async function retrieveCareerMatches(query: string, k = 3): Promise<KnowledgeChunk[]> {
-  return retrieveTopK(query, careerChunks, k);
+  return retrieve("careers", query, k);
 }

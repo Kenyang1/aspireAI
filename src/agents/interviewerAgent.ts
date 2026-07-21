@@ -11,17 +11,16 @@
  * come from, not the recording/UI flow that already works.
  */
 
-import OpenAI from "openai";
+import { getOpenAI } from "../lib/openaiClient";
 import { CandidateProfile, RoleBrief, TailoredQuestion } from "./types";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function generateQuestions(
   profile: CandidateProfile,
   roleBrief: RoleBrief,
   count = 3
 ): Promise<TailoredQuestion[]> {
-  const completion = await openai.chat.completions.create({
+  const completion = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     response_format: { type: "json_object" },
     messages: [

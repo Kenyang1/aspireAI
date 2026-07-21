@@ -10,17 +10,31 @@
  * generate using ONLY what was retrieved.
  */
 
-import OpenAI from "openai";
+import { getOpenAI } from "../lib/openaiClient";
 import { KnowledgeChunk } from "../lib/rag";
+import { ExplanationStrategy } from "../lib/bandit";
 import { CareerMatch } from "./types";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+/**
+ * Tone/framing instructions per bandit arm. The UCB1 bandit
+ * (src/lib/bandit.ts) chooses which of these the agent uses for a given
+ * request, and student feedback teaches it which style works best.
+ */
+const STRATEGY_INSTRUCTIONS: Record<ExplanationStrategy, string> = {
+  encouraging:
+    "Write in a warm, confidence-building tone that affirms the student's strengths.",
+  direct:
+    "Write in a plain, evidence-first tone: state the concrete overlap between their interests and the major.",
+  future_focused:
+    "Write so the student can picture their future day-to-day life in this field.",
+};
 
 export async function explainMatches(
   interests: string[],
-  matchedCareers: KnowledgeChunk[]
+  matchedCareers: KnowledgeChunk[],
+  strategy: ExplanationStrategy = "encouraging"
 ): Promise<CareerMatch[]> {
-  const completion = await openai.chat.completions.create({
+  const completion = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     response_format: { type: "json_object" },
     messages: [
@@ -29,8 +43,10 @@ export async function explainMatches(
         content:
           "A student described their interests. You were given a shortlist of college majors " +
           "that were already retrieved as the best semantic matches -- do not invent other majors. " +
-          "For each one, write one encouraging sentence (under 30 words) on why it fits THIS " +
-          'student, grounded only in the provided major description. Return strict JSON: ' +
+          "For each one, write one sentence (under 30 words) on why it fits THIS student, " +
+          "grounded only in the provided major description. " +
+          STRATEGY_INSTRUCTIONS[strategy] +
+          ' Return strict JSON: ' +
           '{"matches": [{"major": string, "whyItFits": string}]} in the same order given, no markdown.',
       },
       {

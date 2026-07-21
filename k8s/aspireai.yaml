@@ -1,0 +1,175 @@
+# AspireAI on Kubernetes: app Deployment + Postgres/Qdrant/Redis backing
+# services. Apply with:
+#
+#   kubectl apply -f k8s/aspireai.yaml
+#
+# Build/push the app image first and set its name below (aspireai:latest works
+# with a local kind/minikube cluster after `kind load docker-image` /
+# `minikube image load`). Create the OpenAI secret before applying:
+#
+#   kubectl -n aspireai create secret generic aspireai-secrets \
+#     --from-literal=OPENAI_API_KEY=sk-...
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: aspireai
+---
+# ------------------------------------------------------------- PostgreSQL
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: aspireai
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels: { app: postgres }
+  template:
+    metadata:
+      labels: { app: postgres }
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          env:
+            - { name: POSTGRES_USER, value: aspire }
+            - { name: POSTGRES_PASSWORD, value: aspire }
+            - { name: POSTGRES_DB, value: aspire }
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - { name: pgdata, mountPath: /var/lib/postgresql/data }
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "aspire"]
+            periodSeconds: 5
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests: { storage: 1Gi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: aspireai
+spec:
+  selector: { app: postgres }
+  ports:
+    - port: 5432
+---
+# ----------------------------------------------------------------- Qdrant
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qdrant
+  namespace: aspireai
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: qdrant }
+  template:
+    metadata:
+      labels: { app: qdrant }
+    spec:
+      containers:
+        - name: qdrant
+          image: qdrant/qdrant:latest
+          ports:
+            - containerPort: 6333
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qdrant
+  namespace: aspireai
+spec:
+  selector: { app: qdrant }
+  ports:
+    - port: 6333
+---
+# ------------------------------------------------------------------ Redis
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: aspireai
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: redis }
+  template:
+    metadata:
+      labels: { app: redis }
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: aspireai
+spec:
+  selector: { app: redis }
+  ports:
+    - port: 6379
+---
+# -------------------------------------------------------------------- App
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspireai
+  namespace: aspireai
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: aspireai }
+  template:
+    metadata:
+      labels: { app: aspireai }
+    spec:
+      containers:
+        - name: aspireai
+          image: aspireai:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - { name: DATABASE_URL, value: "postgres://aspire:aspire@postgres:5432/aspire" }
+            - { name: QDRANT_URL, value: "http://qdrant:6333" }
+            - { name: REDIS_URL, value: "redis://redis:6379" }
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aspireai-secrets
+                  key: OPENAI_API_KEY
+                  optional: true
+          readinessProbe:
+            httpGet: { path: /api/health, port: 3000 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /api/health, port: 3000 }
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aspireai
+  namespace: aspireai
+spec:
+  selector: { app: aspireai }
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000

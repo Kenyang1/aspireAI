@@ -14,11 +14,10 @@
  * change, not a rewrite.
  */
 
-import OpenAI from "openai";
+import { getOpenAI } from "../lib/openaiClient";
 import { KnowledgeChunk } from "../lib/rag";
 import { RoleBrief } from "./types";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function buildRoleBrief(
   jobDescription: string,
@@ -26,7 +25,7 @@ export async function buildRoleBrief(
 ): Promise<RoleBrief> {
   const contextText = rubricContext.map((c) => `- ${c.text}`).join("\n");
 
-  const completion = await openai.chat.completions.create({
+  const completion = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     response_format: { type: "json_object" },
     messages: [

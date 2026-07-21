@@ -16,11 +16,13 @@
  * swapping this file's internals for a real vector DB starts to pay off.
  */
 
-import OpenAI from "openai";
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+import { cacheKey, cached } from "./cache";
+import { getOpenAI } from "./openaiClient";
 
 export const EMBEDDING_MODEL = "text-embedding-3-small";
+
+/** Cache embeddings for a week — identical text always embeds identically. */
+const EMBEDDING_TTL_SECONDS = 7 * 24 * 60 * 60;
 
 export interface KnowledgeChunk {
   id: string;
@@ -29,13 +31,19 @@ export interface KnowledgeChunk {
   metadata?: Record<string, unknown>;
 }
 
-/** Turn a string into an embedding vector using OpenAI's embeddings API. */
+/**
+ * Turn a string into an embedding vector using OpenAI's embeddings API.
+ * Results are cached (Redis when configured, in-memory otherwise) so repeated
+ * queries — common with interest quizzes — don't re-bill the embeddings API.
+ */
 export async function embedText(text: string): Promise<number[]> {
-  const response = await openai.embeddings.create({
-    model: EMBEDDING_MODEL,
-    input: text,
+  return cached(cacheKey(`emb:${EMBEDDING_MODEL}`, text), EMBEDDING_TTL_SECONDS, async () => {
+    const response = await getOpenAI().embeddings.create({
+      model: EMBEDDING_MODEL,
+      input: text,
+    });
+    return response.data[0].embedding;
   });
-  return response.data[0].embedding;
 }
 
 /** Standard cosine similarity between two equal-length vectors. */

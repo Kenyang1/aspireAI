@@ -11,11 +11,10 @@
  * brief so feedback reflects what THIS job actually needs.
  */
 
-import OpenAI from "openai";
+import { getOpenAI } from "../lib/openaiClient";
 import { KnowledgeChunk } from "../lib/rag";
 import { AnswerFeedback, RoleBrief } from "./types";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function assessAnswer(
   question: string,
@@ -25,7 +24,7 @@ export async function assessAnswer(
 ): Promise<AnswerFeedback> {
   const contextText = rubricContext.map((c) => `- ${c.text}`).join("\n");
 
-  const completion = await openai.chat.completions.create({
+  const completion = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     response_format: { type: "json_object" },
     messages: [

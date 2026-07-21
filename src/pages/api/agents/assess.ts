@@ -1,17 +1,21 @@
 /**
  * POST /api/agents/assess
  * -------------------------
- * Body: { question: string, transcript: string, roleBrief?: RoleBrief }
+ * Body: { question: string, transcript: string, roleBrief?: RoleBrief, uid?: string }
  * Retrieves relevant interview-rubric context, then runs the Feedback Agent.
- * This replaces src/pages/api/text.js's single free-text grading call with
- * structured, rubric-grounded feedback. (src/pages/api/transcription.js is
- * unchanged -- audio-to-text still happens the same way it always did.)
+ *
+ * When a uid is provided, the graded answer also updates the student's
+ * per-competency mastery via Bayesian Knowledge Tracing (src/lib/bkt.ts) and
+ * is logged to their interaction history — the response then carries a
+ * `mastery` snapshot alongside the feedback.
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { retrieveRubricContext } from "@/agents/orchestrator";
 import { assessAnswer } from "@/agents/feedbackAgent";
 import { RoleBrief } from "@/agents/types";
+import { updateMasteryFromAnswer } from "@/lib/bkt";
+import { logInteraction, upsertStudent } from "@/lib/repository";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -19,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  const { question, transcript, roleBrief } = req.body ?? {};
+  const { question, transcript, roleBrief, uid } = req.body ?? {};
 
   if (!question || !transcript) {
     res.status(400).json({ error: "question and transcript are both required" });
@@ -31,7 +35,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       `${question} ${(roleBrief as RoleBrief | undefined)?.targetRole ?? ""}`
     );
     const feedback = await assessAnswer(question, transcript, roleBrief ?? null, rubricContext);
-    res.status(200).json({ feedback });
+
+    let mastery = undefined;
+    if (typeof uid === "string" && uid.length > 0) {
+      const competencies = (roleBrief as RoleBrief | undefined)?.likelyCompetencies ?? [];
+      await upsertStudent(uid);
+      mastery = await updateMasteryFromAnswer(uid, competencies, feedback.starScore);
+      await logInteraction(uid, "interview_feedback", {
+        question,
+        starScore: feedback.starScore,
+        competencies,
+      });
+    }
+
+    res.status(200).json({ feedback, mastery });
   } catch (error) {
     console.error("Error assessing answer:", error);
     res.status(500).json({ error: (error as Error).message });
